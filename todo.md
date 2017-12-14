@@ -9,13 +9,23 @@ Functionality to add
 Add a CAPTCHA to the login page to appear after 2 failed login attemps.
 (should be easy)
 
-Routine to retrieve a forgotten password.  Probably send an email to the user with a link comprised of the url of the retrieve password page and a GET string of a string of random bytes which would also have been stored against the user in a database table to verify that the request is genuine.  The page would have password and confirm boxes.  On receipt of this data the value in the database would be cleared, the new password stored in the database, and the user redirected to the login page to log in. 
+* Possible
+* * Google Key
+* * JavaScript Andon's
+
+Routine to retrieve a forgotten password.  Probably send an email to the user with a link comprised of the url of the retrieve password page and a GET string of a string of random bytes which would also have been stored against the user in a database table to verify that the request is genuine.  The page would have password and confirm boxes.  On receipt of this data the value in the database would be cleared, the new password stored in the database, and the user redirected to the login page to log in.
 (Not too hard to do, this one)
 
-Routine to send an email to the user when the account is locked.  Could be the same, functionally, as the forgotten password retrieval routine.  Just different wording in the email. 
+* Mailserver
+
+Routine to send an email to the user when the account is locked.  Could be the same, functionally, as the forgotten password retrieval routine.  Just different wording in the email.
 (Easy, if the retrieve password job has been done)
 
+* Mailserver
+
 Add the ability to deal with user roles.  Will require at least two additional database tables for Roles and UserRoles.  The role should be passed around with the SESSION data and checked where necessary to restrict access to pages as required(Moderate difficulty)
+
+* Not this importent jet -> no other Users
 
 When roles are working, we should be able to add config items to specify who can register new members.  If the application is configured to make registration an admin function, for example, the registration page should become a registration request page and on completion of the page the user should be informed by email that the request is awaiting moderation.  The user's details would be added to the members table, but with an awaiting moderation flag.  There would then have to be a way for the administrator to clear that flag, and a way for the application to check the flag before allowing anyone to log in.
 (Probably fairly easy once the roles have been done)
@@ -26,10 +36,12 @@ Installation routine.  It would be really cool if there was an install routine s
 Add a "Remember Me" check box.  Not sure about how this works.
 (Looks quite hard, until I find out more about the functionality)
 
+* Save a Cookie?
+
 Quality improvements
 --------------------
 
-Arrange the files into separate directories according to function: say pages that are mainly html in the root directory, PHP files in an includes directory, JavaScript files in a scripts directory, CSS files in a styles directory, and so on. 
+Arrange the files into separate directories according to function: say pages that are mainly html in the root directory, PHP files in an includes directory, JavaScript files in a scripts directory, CSS files in a styles directory, and so on.
 (Easy to do, but will require care in altering paths)
 
 Rewrite in a more object oriented way?

@@ -19,24 +19,49 @@
 
 include_once 'db_connect.php';
 include_once 'functions.php';
+include_once 'recaptchalib.php';
+// reCAPTCA stuff
+$secret = "6LcIZzoUAAAAANbbclf35mEFeeLlgDB_YmTSkmAE";
+
+$response = null;
+
+$reCaptcha = new ReCaptcha($secret);
+
+
 
 sec_session_start(); // Our custom secure way of starting a PHP session.
 
-if (isset($_POST['email'], $_POST['p'])) {
+if (isset($_POST['email'], $_POST['p'],$_POST['g-recaptcha-response'],$_SERVER["REMOTE_ADDR"])) {
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
     $password = $_POST['p']; // The hashed password.
-    
+    if ($_POST["g-recaptcha-response"]) {
+        $response = $reCaptcha->verifyResponse(
+            $_SERVER["REMOTE_ADDR"],
+            $_POST["g-recaptcha-response"]
+        );
+    }
+    $response = $reCaptcha->verifyResponse(
+        $_SERVER["REMOTE_ADDR"],
+        $_POST["g-recaptcha-response"]
+    );
+    if ($response->success) {
     if (login($email, $password, $mysqli) == true) {
         // Login success 
         header("Location: ../protected_page.php");
         exit();
     } else {
         // Login failed 
-        header('Location: ../index.php?error=1');
+        header('Location: ../index.php?error='.$response);
         exit();
     }
 } else {
     // The correct POST variables were not sent to this page. 
     header('Location: ../error.php?err=Could not process login');
+    exit();
+}
+} else {
+    // The correct POST variables were not sent to this page. 
+    $s = $_POST['email']."/".$_POST['p']."/".$_POST['g-recaptcha-response']."/".$_SERVER["REMOTE_ADDR"];
+    header('Location: ../error.php?err=Could not process login->Captcha '.$s);
     exit();
 }

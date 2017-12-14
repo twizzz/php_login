@@ -20,7 +20,7 @@
 include_once 'psl-config.php';
 
 function sec_session_start() {
-    $session_name = 'sec_session_id';   // Set a custom session name 
+    $session_name = 'beris_sec_id';   // Set a custom session name 
     $secure = SECURE;
 
     // This stops JavaScript being able to access the session id.
@@ -125,16 +125,16 @@ function checkbrute($user_id, $mysqli) {
         $stmt->execute();
         $stmt->store_result();
 
-        // If there have been more than 5 failed logins 
-        if ($stmt->num_rows > 5) {
-            return true;
-        } else {
-            return false;
-        }
+        // If there have been more than 5 failed logins
+     	if ($stmt->num_rows > 5) {
+      		return true;
+       	} else {
+                return false;
+		}
     } else {
-        // Could not create a prepared statement
-        header("Location: ../error.php?err=Database error: cannot prepare statement");
-        exit();
+            // Could not create a prepared statement
+            header("Location: ../error.php?err=Database error: cannot prepare statement");
+            exit();
     }
 }
 
@@ -191,10 +191,10 @@ function esc_url($url) {
     }
 
     $url = preg_replace('|[^a-z0-9-~+_.?#=!&;,/:%@$\|*\'()\\x80-\\xff]|i', '', $url);
-    
+
     $strip = array('%0d', '%0a', '%0D', '%0A');
     $url = (string) $url;
-    
+
     $count = 1;
     while ($count) {
         $url = str_replace($strip, '', $url, $count);
@@ -213,4 +213,42 @@ function esc_url($url) {
     } else {
         return $url;
     }
+}
+
+function del_user($user, $mysqli) {
+    // Deleting Users, not sure where
+    echo $stmt->error;
+    if($stmt = $mysqli->prepare("DELETE FROM members WHERE email= ?")) {
+    $stmt->bind_param('s',$user);
+    $stmt->execute();
+    $stmt->store_result();
+    
+    return  true;
+} else {
+    header("Location: ../error.php?err=Database error: cannot prepare statement");
+    exit();
+}
+}
+
+function checklogin($user_id, $mysqli) {
+	$now = time();
+
+	$valid_attempts = $now - (2 * 60 * 60);
+
+	if ($stmt = $mysqli->prepare("SELECT time FROM login_attempts WHERE user_id = ? AND time > '$valid_attempts'")) {
+		$stmt->bind_param('i',$user_id);
+
+		$stmt->execute();
+        $stmt->store_result();
+        
+
+		if ($stmt->num_rows > 2) {
+			return true;
+		} else {
+			return false;
+		}
+	} else {
+		header("Location: ../error.php?err=Database error: cannot prepare statement");
+		exit();
+	}
 }

@@ -20,10 +20,13 @@ include_once 'includes/functions.php';
 
 sec_session_start();
 
+
 if (login_check($mysqli) == true) {
     $logged = 'in';
+    $checked = true;
 } else {
     $logged = 'out';
+    $checked = false;
 }
 ?>
 <!DOCTYPE html>
@@ -33,24 +36,32 @@ if (login_check($mysqli) == true) {
         <link rel="stylesheet" href="styles/main.css" />
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script> 
+	    <script src="https://www.google.com/recaptcha/api.js"></script>
     </head>
     <body>
         <?php
         if (isset($_GET['error'])) {
             echo '<p class="error">Error Logging In!</p>';
+            echo $_GET['res'];
         }
-        ?> 
-        <form action="includes/process_login.php" method="post" name="login_form"> 			
-            Email: <input type="text" name="email" />
-            Password: <input type="password" 
-                             name="password" 
-                             id="password"/>
-            <input type="button" 
-                   value="Login" 
-                   onclick="formhash(this.form, this.form.password);" /> 
-        </form>
-        <p>If you don't have a login, please <a href="register.php">register</a></p>
+        ?>
+        <?php
+        if ($checked == false) {
+            echo "<table><form action='includes/process_login.php' method='post' name='login_form'>";		
+            echo "<tr><td>Email:</td><td><input type='text' name='email' /></td></tr>";
+            echo "<tr><td>Password: </td><td><input type='password' name='password' id='password'/></td></tr>";
+            echo "<tr><td colspan='2'><div class='g-recaptcha' data-sitekey='6LcIZzoUAAAAADBsXbLMFQNS3KYIcczBhrSIQqTM'></div></td></tr>";
+            echo "<tr><td><input type='button' value='Login' onclick='formhash(this.form, this.form.password);' /></td></tr>";
+            echo "</form></table>";
+            echo "<p>If you don't have a login, please <a href='register.php'>register</a></p>";
+        
+        
+        } else {
+            echo "<p><a href='protected_page.php'>Go on</a><p>";
+        }
+        ?>
+
         <p>If you are done, please <a href="includes/logout.php">log out</a>.</p>
-        <p>You are currently logged <?php echo $logged ?>.</p>
+        <p>You are currently logged <?php echo "<em>".$logged."</em>"; ?>.</p>
     </body>
 </html>
