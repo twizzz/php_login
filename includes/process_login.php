@@ -40,25 +40,22 @@ if (isset($_POST['email'], $_POST['p'],$_POST['g-recaptcha-response'],$_SERVER["
             $_POST["g-recaptcha-response"]
         );
     }
-    $response = $reCaptcha->verifyResponse(
-        $_SERVER["REMOTE_ADDR"],
-        $_POST["g-recaptcha-response"]
-    );
     if ($response->success) {
     if (login($email, $password, $mysqli) == true) {
         // Login success 
         header("Location: ../protected_page.php");
         exit();
     } else {
+        // The correct POST variables were not sent to this page. 
+        header('Location: ../error.php?err=Could not process login');
+        exit();
+        }
+    } else {
         // Login failed 
-        header('Location: ../index.php?error='.$response);
+        header('Location: ../index.php?err=Slove that reCAPTCHA dumbass');
         exit();
     }
-} else {
-    // The correct POST variables were not sent to this page. 
-    header('Location: ../error.php?err=Could not process login');
-    exit();
-}
+
 } else {
     // The correct POST variables were not sent to this page. 
     $s = $_POST['email']."/".$_POST['p']."/".$_POST['g-recaptcha-response']."/".$_SERVER["REMOTE_ADDR"];
