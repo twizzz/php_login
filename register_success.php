@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <head>
         <meta charset="UTF-8">
         <title>Secure Login: Registration Success</title>
+        <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet"> 
         <link rel="stylesheet" href="styles/main.css" />
     </head>
     <body>

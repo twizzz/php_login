@@ -24,9 +24,11 @@ sec_session_start();
     <head>
         <meta charset="UTF-8">
         <title>Secure Login: Registration Form</title>
+        <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet"> 
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script>
         <link rel="stylesheet" href="styles/main.css" />
+        <script src="https://www.google.com/recaptcha/api.js"></script>
     </head>
     <body>
         <!-- Registration form to be output if the POST variables are not
@@ -50,12 +52,22 @@ sec_session_start();
             </li>
         </ul>
         <form method="post" name="deletion_form" action="includes/process_delete.php">
-            Email: <input type="text" name="email" id="email" /><br>
-            Password: <input type="password"
-                             name="password" 
-                             id="password"/><br>
-
-            <input type='button' value='Delete' onclick='formhash(this.form, this.form.password);' /> 
+            <table>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="text" name="email" id="email" require/></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="password" name="password" id="password" require/></td>
+                </tr>
+                <tr>
+                    <td colspan='2'><div class='g-recaptcha' data-sitekey='6LcIZzoUAAAAADBsXbLMFQNS3KYIcczBhrSIQqTM'></div></td>
+                </tr>
+                <tr>
+                    <td><input type='button' value='Delete' onclick='formhash(this.form, this.form.password);' /></td>
+                </tr>
+            </table>
         </form>
         <p>Return to the <a href="index.php">login page</a>.</p>
     </body>

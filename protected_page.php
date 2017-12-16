@@ -25,6 +25,7 @@ sec_session_start();
     <head>
         <meta charset="UTF-8">
         <title>Secure Login: Protected Page</title>
+        <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet"> 
         <link rel="stylesheet" href="styles/main.css" />
     </head>
     <body>

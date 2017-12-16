@@ -22,3 +22,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Show error messages in red */
 
 .error { color: red; }
+
+body {
+    background: #8E8E8E;
+    font-family: 'Rubik', sans-serif;
+}

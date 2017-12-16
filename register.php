@@ -23,9 +23,11 @@ include_once 'includes/functions.php';
     <head>
         <meta charset="UTF-8">
         <title>Secure Login: Registration Form</title>
+        <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet"> 
+        <link rel="stylesheet" href="styles/main.css" />
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script>
-        <link rel="stylesheet" href="styles/main.css" />
+        <script src="https://www.google.com/recaptcha/api.js"></script>
     </head>
     <body>
         <!-- Registration form to be output if the POST variables are not
@@ -50,21 +52,29 @@ include_once 'includes/functions.php';
             <li>Your password and confirmation must match exactly</li>
         </ul>
         <form method="post" name="registration_form" action="<?php echo esc_url($_SERVER['PHP_SELF']); ?>">
-            Username: <input type='text' name='username' id='username' /><br>
-            Email: <input type="text" name="email" id="email" /><br>
-            Password: <input type="password"
-                             name="password" 
-                             id="password"/><br>
-            Confirm password: <input type="password" 
-                                     name="confirmpwd" 
-                                     id="confirmpwd" /><br>
-            <input type="button" 
-                   value="Register" 
-                   onclick="return regformhash(this.form,
-                                   this.form.username,
-                                   this.form.email,
-                                   this.form.password,
-                                   this.form.confirmpwd);" /> 
+            <table>
+                <tr>
+                    <td>Username:</td>
+                    <td><input type='text' name='username' id='username' require/></td>
+                </tr>
+                <tr>
+                    <td>Email:</td>
+                    <td><input type="text" name="email" id="email" require/></td>
+                </tr>
+                <tr>
+                    <td>Password:</td>
+                    <td><input type="password" name="password"  id="password" require/></td>
+                </tr>
+                    <td>Confirm password:</td>
+                    <td><input type="password" name="confirmpwd" id="confirmpwd" require/></td>
+                </tr>
+                <tr>
+                    <td colspan='2'><div class='g-recaptcha' data-sitekey='6LcIZzoUAAAAADBsXbLMFQNS3KYIcczBhrSIQqTM'></div></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="Register" onclick="return regformhash(this.form, this.form.username, this.form.email, this.form.password, this.form.confirmpwd);" /></td>
+                </tr>
+            </table>
         </form>
         <p>Return to the <a href="index.php">login page</a>.</p>
     </body>

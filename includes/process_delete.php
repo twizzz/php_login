@@ -19,13 +19,29 @@
 
 include_once 'db_connect.php';
 include_once 'functions.php';
+include_once 'recaptchalib.php';
+
+// reCAPTCA stuff
+$secret = "6LcIZzoUAAAAANbbclf35mEFeeLlgDB_YmTSkmAE";
+
+$response = null;
+
+$reCaptcha = new ReCaptcha($secret);
 
 sec_session_start(); // Our custom secure way of starting a PHP session.
 
-if(del_user($_POST['email'], $mysqli)==true) {
-    header('Location: logout.php');
-} else {
-    header('Location: ../delete.php');
+if ($_POST["g-recaptcha-response"]) {
+    $response = $reCaptcha->verifyResponse(
+        $_SERVER["REMOTE_ADDR"],
+        $_POST["g-recaptcha-response"]
+    );
+}
+if ($response->success) {
+    if(del_user($_POST['email'], $mysqli)==true) {
+        header('Location: logout.php');
+    } else {
+        header('Location: ../delete.php');
+    }
 }
 
 

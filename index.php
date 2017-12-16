@@ -33,6 +33,7 @@ if (login_check($mysqli) == true) {
 <html>
     <head>
         <title>Secure Login: Log In</title>
+        <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
         <link rel="stylesheet" href="styles/main.css" />
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script> 
@@ -54,15 +55,17 @@ if (login_check($mysqli) == true) {
             echo "<tr><td><input type='button' value='Login' onclick='formhash(this.form, this.form.password);' /></td></tr>";
             echo "</table></form>";
             echo "<p>If you don't have a login, please <a href='register.php'>register</a></p>";
+            echo "<p>You are currently logged <em>".$logged."</em></p>";
         
         
         } else {
             echo "<p><a href='protected_page.php'>Go on</a><p>";
             echo "<p>If you are done, please <a href='includes/logout.php'>log out</a>.</p>";
+            echo "<p>You are currently logged <em>".$logged."</em> as <em>".$_SESSION['username']."</em></p>";
         }
         ?>
 
         
-        <p>You are currently logged <?php echo "<em>".$logged."</em>"; ?>.</p>
+        
     </body>
 </html>
