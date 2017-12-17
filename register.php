@@ -59,7 +59,7 @@ include_once 'includes/functions.php';
                 </tr>
                 <tr>
                     <td>Email:</td>
-                    <td><input type="text" name="email" id="email" require/></td>
+                    <td><input type="email" name="email" id="email" require/></td>
                 </tr>
                 <tr>
                     <td>Password:</td>

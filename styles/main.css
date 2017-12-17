@@ -27,3 +27,16 @@ body {
     background: #8E8E8E;
     font-family: 'Rubik', sans-serif;
 }
+
+img {
+    max-width: 100%;
+}
+
+input, textarea {
+    max-width:100%
+}
+
+#div1 {
+    width: 100%;
+    height: 100%
+}

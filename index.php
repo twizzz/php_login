@@ -35,11 +35,13 @@ if (login_check($mysqli) == true) {
         <title>Secure Login: Log In</title>
         <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
         <link rel="stylesheet" href="styles/main.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <script type="text/JavaScript" src="js/sha512.js"></script> 
         <script type="text/JavaScript" src="js/forms.js"></script> 
 	    <script src="https://www.google.com/recaptcha/api.js"></script>
     </head>
     <body>
+    <div id="div1">
         <?php
         if (isset($_GET['error'])) {
             echo '<p class="error">Error Logging In!</p>';
@@ -49,7 +51,7 @@ if (login_check($mysqli) == true) {
         <?php
         if ($checked == false) {
             echo "<form action='includes/process_login.php' method='post' name='login_form'><table>";		
-            echo "<tr><td>Email:</td><td><input type='text' name='email' required/></td></tr>";
+            echo "<tr><td>Email:</td><td><input type='email' name='email' required/></td></tr>";
             echo "<tr><td>Password: </td><td><input type='password' name='password' id='password' required/></td></tr>";
             echo "<tr><td colspan='2'><div class='g-recaptcha' data-sitekey='6LcIZzoUAAAAADBsXbLMFQNS3KYIcczBhrSIQqTM'></div></td></tr>";
             echo "<tr><td><input type='button' value='Login' onclick='formhash(this.form, this.form.password);' /></td></tr>";
@@ -66,6 +68,6 @@ if (login_check($mysqli) == true) {
         ?>
 
         
-        
+    </div>    
     </body>
 </html>

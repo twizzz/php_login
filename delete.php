@@ -55,7 +55,7 @@ sec_session_start();
             <table>
                 <tr>
                     <td>Email:</td>
-                    <td><input type="text" name="email" id="email" require/></td>
+                    <td><input type="email" name="email" id="email" require/></td>
                 </tr>
                 <tr>
                     <td>Password:</td>
