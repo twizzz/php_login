@@ -25,5 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     <body>
         <h1>Registration successful!</h1>
         <p>You can now go back to the <a href="index.php">login page</a> and log in</p>
+        <p class="error">Notice: Your Account needs to be activated by an Admin, please check by later.</p>
     </body>
 </html>

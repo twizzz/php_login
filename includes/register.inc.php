@@ -87,10 +87,10 @@ if (isset($_POST['username'], $_POST['email'], $_POST['p'], $_POST['g-recaptcha-
 
         // Create salted password 
         $password = hash('sha512', $password . $random_salt);
-
+        $zero = 0;
         // Insert the new user into the database 
-        if ($insert_stmt = $mysqli->prepare("INSERT INTO members (username, email, password, salt) VALUES (?, ?, ?, ?)")) {
-            $insert_stmt->bind_param('ssss', $username, $email, $password, $random_salt);
+        if ($insert_stmt = $mysqli->prepare("INSERT INTO members (username, email, password, salt, status) VALUES (?, ?, ?, ?, ?)")) {
+            $insert_stmt->bind_param('ssssi', $username, $email, $password, $random_salt, $zero);
             // Execute the prepared query.
             if (! $insert_stmt->execute()) {
                 header('Location: ../error.php?err=Registration failure: INSERT');

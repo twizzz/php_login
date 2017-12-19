@@ -45,7 +45,7 @@ function sec_session_start() {
 
 function login($email, $password, $mysqli) {
     // Using prepared statements means that SQL injection is not possible. 
-    if ($stmt = $mysqli->prepare("SELECT id, username, password, salt 
+    if ($stmt = $mysqli->prepare("SELECT id, username, password, salt, status 
 				  FROM members 
                                   WHERE email = ? LIMIT 1")) {
         $stmt->bind_param('s', $email);  // Bind "$email" to parameter.
@@ -53,7 +53,7 @@ function login($email, $password, $mysqli) {
         $stmt->store_result();
 
         // get variables from result.
-        $stmt->bind_result($user_id, $username, $db_password, $salt);
+        $stmt->bind_result($user_id, $username, $db_password, $salt, $status);
         $stmt->fetch();
 
         // hash the password with the unique salt.
@@ -71,20 +71,26 @@ function login($email, $password, $mysqli) {
                 if ($db_password == $password) {
                     // Password is correct!
                     // Get the user-agent string of the user.
-                    $user_browser = $_SERVER['HTTP_USER_AGENT'];
+                    if ($status=1 || 2) {
+                        $user_browser = $_SERVER['HTTP_USER_AGENT'];
 
-                    // XSS protection as we might print this value
-                    $user_id = preg_replace("/[^0-9]+/", "", $user_id);
-                    $_SESSION['user_id'] = $user_id;
+                        // XSS protection as we might print this value
+                        $user_id = preg_replace("/[^0-9]+/", "", $user_id);
+                        $_SESSION['user_id'] = $user_id;
 
-                    // XSS protection as we might print this value
-                    $username = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $username);
+                        // XSS protection as we might print this value
+                        $username = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $username);
 
-                    $_SESSION['username'] = $username;
-                    $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
+                        $_SESSION['username'] = $username;
+                        $_SESSION['login_string'] = hash('sha512', $password . $user_browser);
+                        $_SESSION['status'] = $status;
 
-                    // Login successful. 
-                    return true;
+                        // Login successful. 
+                        return true;
+                    } else {
+                        return false;
+                        
+                    }
                 } else {
                     // Password is not correct 
                     // We record this attempt in the database 
@@ -251,4 +257,31 @@ function checklogin($user_id, $mysqli) {
 		header("Location: ../error.php?err=Database error: cannot prepare statement");
 		exit();
 	}
+}
+
+function getNewUsers($mysqli) {
+    if ($stmt = $mysqli->prepare("SELECT username, email FROM members  WHERE status = ? LIMIT 1")) {
+            // Bind "$user_id" to parameter.
+            $zero = 0; 
+            $table = "";
+            $stmt->bind_param('i', $zero);
+            $a = $stmt->execute();   // Execute the prepared query.
+            //$stmt->store_result();
+
+            while($row = mysql_fetch_array($a))
+            {
+                $table .= "<tr>";
+                $table .= "<td>" . $row['username'] . "</td>";
+                $table .= "<td>" . $row['email'] . "</td>";
+                $table .= "</tr>";
+            }
+
+
+
+            return $table;
+    }  else {
+		header("Location: ../error.php?err=Database error: cannot prepare statement");
+		exit();
+	}
+
 }

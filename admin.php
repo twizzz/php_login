@@ -19,7 +19,8 @@ include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
 sec_session_start();
-if($_SESSION['status']=1){$s = "User";} else if ($_SESSION['status']=2){$s = "Admin";} else {$s = "WTF are you doing here";}; 
+$s = getNewUsers($mysqli);
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,16 +32,15 @@ if($_SESSION['status']=1){$s = "User";} else if ($_SESSION['status']=2){$s = "Ad
     </head>
     <body>
         <?php if (login_check($mysqli) == true) : ?>
-        <p>Welcome <?php echo htmlentities($_SESSION['username'])." you are an ".$s ?>!</p>
-            <p>
-                This is an example protected page.  To access this page, users
-                must be logged in.  At some stage, we'll also check the role of
-                the user, so pages will be able to determine the type of user
-                authorised to access the page.
-            </p>
-            <p>Return to <a href="index.php">login page</a></p>
-            <p>Please <a href="delete.php">delete</a> Account</p>
-            <p>If you are done, please <a href='includes/logout.php'>log out</a>.</p>
+        <p>Welcome <?php echo htmlentities($_SESSION['username']); ?>!</p>
+            <table>
+            <?php
+                echo $s;
+                echo "</table>";
+            ?> 
+
+
+
         <?php else : ?>
             <p>
                 <span class="error">You are not authorized to access this page.</span> Please <a href="index.php">login</a>.
