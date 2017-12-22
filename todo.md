@@ -10,7 +10,7 @@ Add a CAPTCHA to the login page to appear after 2 failed login attemps.
 (should be easy)
 
 * Possible
-* * Google Key
+* * Google Key (Done)
 * * JavaScript Andon's
 
 Routine to retrieve a forgotten password.  Probably send an email to the user with a link comprised of the url of the retrieve password page and a GET string of a string of random bytes which would also have been stored against the user in a database table to verify that the request is genuine.  The page would have password and confirm boxes.  On receipt of this data the value in the database would be cleared, the new password stored in the database, and the user redirected to the login page to log in.
