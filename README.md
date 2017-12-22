@@ -1,6 +1,13 @@
 phpSecureLogin
 ==============
 
+
+*************************************************************************************************************************
+
+I've forked this project from [peredurabefrog][https://github.com/peredurabefrog/phpSecureLogin]. He got the code snipped
+from [wikihow][http://www.wikihow.com/Create-a-Secure-Login-Script-in-PHP-and-MySQL]. I decided to adopt this project as
+my first with PHP. I'm open for new ideas an improfements of any kind. Since I'm doning this in my sparetime it might need time to come forwards.
+
 *************************************************************************************************************************
 
 I'VE ABANDONED THIS PROJECT AS MAINTAINING IT IS TAKING UP TOO MUCH OF MY TIME.  IF ANYONE WANTS TO CLONE IT, OR WOULD LIKE LIKE TO BE ADDED TO THE ADMINS FOR THIS LOCATION, AND CONTINUE THE WORK (INCLUDING UPDATING THE WIKIHOW PAGE) I'D BE ONLY TOO GRATEFUL.
