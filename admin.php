@@ -29,18 +29,24 @@ $s = getNewUsers($mysqli);
         <title>Secure Login: Protected Page</title>
         <link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet"> 
         <link rel="stylesheet" href="styles/main.css" />
+        <script src="js/main.js"></script>
     </head>
     <body>
         <?php if (login_check($mysqli) == true) : ?>
-        <p>Welcome <?php echo htmlentities($_SESSION['username']); ?>!</p>
-            <table>
-            <?php
-                echo $s;
-                echo "</table>";
+           <?php if($_SESSION['status'] = 2) {
+            echo "<p>Welcome ". $_SESSION['username']." !</p>";
+            echo "    <table>";
+                
+                    echo "<table border='1'>";
+                    echo "<tr><th>Username</th><th>Email</th><th>Activate</tdh</tr>";
+                    echo $s;
+                    echo "</table>";
+            } else {
+                echo "<p>";
+                echo "<span class='error'>You are not authorized to access this page.</span>";
+                echo "</p>";
+            } 
             ?> 
-
-
-
         <?php else : ?>
             <p>
                 <span class="error">You are not authorized to access this page.</span> Please <a href="index.php">login</a>.

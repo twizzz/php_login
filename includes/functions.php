@@ -71,7 +71,7 @@ function login($email, $password, $mysqli) {
                 if ($db_password == $password) {
                     // Password is correct!
                     // Get the user-agent string of the user.
-                    if ($status=1 || 2) {
+                    if ($status==1 || $status == 2) {
                         $user_browser = $_SERVER['HTTP_USER_AGENT'];
 
                         // XSS protection as we might print this value
@@ -260,19 +260,20 @@ function checklogin($user_id, $mysqli) {
 }
 
 function getNewUsers($mysqli) {
-    if ($stmt = $mysqli->prepare("SELECT username, email FROM members  WHERE status = ? LIMIT 1")) {
+    if ($stmt = $mysqli->prepare("SELECT username, email, id FROM members  WHERE status = ?")) {
             // Bind "$user_id" to parameter.
             $zero = 0; 
             $table = "";
             $stmt->bind_param('i', $zero);
-            $a = $stmt->execute();   // Execute the prepared query.
-            //$stmt->store_result();
+            $stmt->execute();   // Execute the prepared query.
+            $a = $stmt->get_result();
 
-            while($row = mysql_fetch_array($a))
+            while($row = $a->fetch_row())   //not printing all of em
             {
                 $table .= "<tr>";
-                $table .= "<td>" . $row['username'] . "</td>";
-                $table .= "<td>" . $row['email'] . "</td>";
+                $table .= "<td>" . $row[0] . "</td>";
+                $table .= "<td>" . $row[1] . "</td>";
+                $table .= "<td><form method='post' action='includes/process_activation.php'><button value='v' onclick='activate(this.form, " . $row[2] . ")'></form></td>";
                 $table .= "</tr>";
             }
 
@@ -284,4 +285,32 @@ function getNewUsers($mysqli) {
 		exit();
 	}
 
+}
+
+function activateAcc($mysqli, $id) {
+    if ($stmt = $mysqli->prepare("UPDATE members SET status=1 WHERE id = ?")) {
+        // Bind "$user_id" to parameter.
+        $stmt->bind_param('i', $id);
+        $stmt->execute();   // Execute the prepared query.
+        if ($stmt->num_rows()>=1) {
+            return true;
+        } else {
+            return false;
+        }
+
+}  else {
+    header("Location: ../error.php?err=Database error: cannot prepare statement");
+    exit();
+}
+
+}
+
+function getUser($status) {
+    if($status==1){
+        return "User";
+    } elseif ($status==2){
+        return "Admin";
+    } else {
+        return "WTF are you doing here";
+    }
 }

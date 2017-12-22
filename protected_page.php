@@ -19,7 +19,7 @@ include_once 'includes/db_connect.php';
 include_once 'includes/functions.php';
 
 sec_session_start();
-if($_SESSION['status']=1){$s = "User";} else if ($_SESSION['status']=2){$s = "Admin";} else {$s = "WTF are you doing here";}; 
+ 
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,7 +31,7 @@ if($_SESSION['status']=1){$s = "User";} else if ($_SESSION['status']=2){$s = "Ad
     </head>
     <body>
         <?php if (login_check($mysqli) == true) : ?>
-        <p>Welcome <?php echo htmlentities($_SESSION['username'])." you are an ".$s ?>!</p>
+        <p>Welcome <?php echo htmlentities($_SESSION['username'])." you are an ".getUser($_SESSION['status']) ?>!</p>
             <p>
                 This is an example protected page.  To access this page, users
                 must be logged in.  At some stage, we'll also check the role of
